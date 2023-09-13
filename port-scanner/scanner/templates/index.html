@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p></p>
+<a href="admin/{{ ip.company }}">Админка</a>
+<p></p>
+<table BORDER=1>
+    <tr BORDER=0>
+        <td>Компания</td>
+        <td>IP</td>
+        <td>Разрешенные порты</td>
+        <td>Открытые порты</td>
+    </tr>
+    {% for ip in ips %}
+        {% if ip.status == "" %}
+            <tr bgcolor="#ffecb3">
+                <td>{{ ip.company }}</td>
+                <td>{{ ip.name }}</td>
+                <td>{{ ip.allow_ports }}</td>
+                <td>{{ ip.open_ports }}</td>
+            </tr>
+        {% endif %}
+
+        {% if ip.status == "No data" %}
+            <tr bgcolor="#ffecb3">
+                <td>{{ ip.company }}</td>
+                <td>{{ ip.name }}</td>
+                <td>{{ ip.allow_ports }}</td>
+                <td>{{ ip.open_ports }}</td>
+            </tr>
+        {% endif %}
+
+        {% if ip.status == "Open" %}
+            <tr bgcolor="#FAA19B">
+                <td>{{ ip.company }}</td>
+                <td>{{ ip.name }}</td>
+                <td>{{ ip.allow_ports }}</td>
+                <td>{{ ip.open_ports }}</td>
+            </tr>
+        {% endif %}
+
+        {% if ip.status == "Close" %}
+            <tr bgcolor="#aed581">
+                <td>{{ ip.company }}</td>
+                <td>{{ ip.name }}</td>
+                <td>{{ ip.allow_ports }}</td>
+                <td>{{ ip.open_ports }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+</body>
+</html>
