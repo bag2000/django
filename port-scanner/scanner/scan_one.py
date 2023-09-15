@@ -1,10 +1,13 @@
 from datetime import datetime
 import socket
 import threading
-import psycopg2
 import os
+from sys import argv
 from main.settings import BASE_DIR
 
+import psycopg2
+
+script, first = argv
 open_ports = []
 logs_path = str(BASE_DIR) + '\scanner\logs'
 
@@ -97,7 +100,6 @@ def scan_from_db(ips):
 
         if len(open_ports) > 0:
             open_ports = ','.join(open_ports)
-            print(ip[3])
             with open(f'{log_dir_path}{ip[1]}.log', 'w') as log:
                 log.write(open_ports)
             execute(f"""UPDATE scanner_ip SET status = 'Open' WHERE id = {ip[0]};""")
@@ -113,6 +115,6 @@ def scan_from_db(ips):
             execute(f"""Update scanner_ip set scanning_now = 'False' WHERE id = {ip[0]}""")
 
 
-ips = execute("SELECT id, name, allow_ports, open_ports FROM scanner_ip")
+ips = execute(f"SELECT id, name, allow_ports, open_ports FROM scanner_ip WHERE name = '{first}'")
 scan_from_db(ips)
 create_general_log()
